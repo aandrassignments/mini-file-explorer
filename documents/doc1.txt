@@ -1,0 +1,1 @@
+Haskell adalah bahasa pemrograman fungsional.

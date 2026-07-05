@@ -1,0 +1,1 @@
+Machine learning menggunakan data untuk prediksi.
