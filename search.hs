@@ -1,6 +1,8 @@
 import System.Directory (listDirectory, doesDirectoryExist)
-import System.FilePath ((</>))
+import System.FilePath (takeFileName, (</>))
 import Data.List (isInfixOf)
+import Data.Char (toLower)
+import System.IO (hFlush, stdout)
 
 scan :: FilePath -> IO[FilePath]
 scan path = do
@@ -20,8 +22,20 @@ process path item = do
 
 main = do
   index <- scan "."
-  putStrLn "\nSearch Something Here"
+  putStrLn "\n|     Mini Search Engine     |"
+  putStr "\nEnter Filename : "
+  hFlush stdout
   query <- getLine
-  let results = filter (isInfixOf query) index
-  putStrLn "\nSearch Result :"
-  mapM_ putStrLn results
+  putStrLn "\n===== Search Result ====="
+  let queryLower = map toLower query
+  let results = filter (\p -> isInfixOf queryLower (map toLower p)) index
+  if null results
+    then putStrLn "no matching files found"
+    else do
+      putStrLn ("Found " ++ show(length results) ++ " result(s) : ")
+      mapM_ (\p -> do 
+        putStrLn ("File : " ++ takeFileName p) 
+        putStrLn("Path : " ++ p) 
+        putStrLn ""
+        ) results
+  
