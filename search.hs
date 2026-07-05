@@ -33,8 +33,10 @@ main = do
     then putStrLn "no matching files found"
     else do
       putStrLn ("Found " ++ show(length results) ++ " result(s) : ")
-      mapM_ (\p -> do 
-        putStrLn ("File : " ++ takeFileName p) 
+      mapM_ (\p -> do
+        isDir <- doesDirectoryExist p 
+        putStrLn ("File : " ++ takeFileName p)
+        putStrLn ("Type : " ++ if isDir then "Folder" else "File") 
         putStrLn("Path : " ++ p) 
         putStrLn ""
         ) results
